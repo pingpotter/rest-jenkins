@@ -1,0 +1,17 @@
+version: "3.7"
+
+networks:
+
+  shared-network:
+    driver: bridge
+services:
+
+  api:
+    networks:
+      - shared-network
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8080"
+    restart: on-failure
