@@ -34,15 +34,18 @@ pipeline {
         stage ('Static Analysis'){
             steps {
                 withEnv(["GOPATH=${WORKSPACE}", "PATH+GO=${root}/bin:${WORKSPACE}/bin", "GOBIN=${WORKSPACE}/bin"]){
-                    sh "go get -u golang.org/x/lint/golint"
+                    
+                    script {
+                        sh "go get -u golang.org/x/lint/golint"
 
-                    dir('full') {
-                        try{
-                            sh "golint ."
-                            sh "go vet ."
-                        } catch (err){
-                            sh "echo static analyis failed.  See report"
-                        }
+                        dir('full') {
+                            try{
+                                sh "golint ."
+                                sh "go vet ."
+                            } catch (err){
+                                sh "echo static analyis failed.  See report"
+                            }
+                    }
                     }
                 }
             }
